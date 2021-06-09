@@ -35,14 +35,6 @@ const readmePrompt = () => {
             message: "Please provide test instructions if applicable"
         },
         {
-            type: "checkbox",
-            message: "License?",
-            name: "license",
-            choices: [
-                "[MIT License](LICENSE.txt)"
-            ]
-        },
-        {
             type: "input",
             name: "email",
             message: "Enter your email account"
@@ -53,9 +45,9 @@ const readmePrompt = () => {
             message: "Enter your github username"
         }
     ]);
-}
+};
 
-const generateREADME = (answers) => {
+const readmeTemplate = (answers) => {
     return `# ${answers.title}
   #### Table of Contents
   1. [Description](#description)
@@ -63,23 +55,33 @@ const generateREADME = (answers) => {
   3. [Usage](#usage)
   4. [Contributions](#Contributions)
   5. [Test Instructions](#test-instructions)
-  6. [License](#license)
-  7. [Contact](#Contact)
+  6. [Contact](#Contact)
   ## Description
-  * ${answers.description}
+  ${answers.description}
   ## Installation
-  * ${answers.install}
+  ${answers.installation}
   ## Usage
-  * ${answers.use}
+  ${answers.usage}
   ## Contributions
-  * ${answers.contributions}
-  ## Test Instructions
-  * ${answers.test}
-  ## License
-  * ${answers.license}
+  ${answers.contributions}
+  ## Test
+  ${answers.test}
   ## Contact
-  * You can reach me at ${answers.email}
-  * Feel free to checkout my Github: [${answers.github}](http://github.com/${answers.github})`;
+  You can reach me at ${answers.email}
+  Feel free to checkout my Github: [${answers.github}](http://github.com/${answers.github})`;
 }
 
-promptUser();
+readmePrompt()
+    .then((answers) => {
+        const newREADME = readmeTemplate(answers)
+        fs.writeFile('README.md', newREADME, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Success!');
+            }
+        })
+    })
+    .then(() => {
+        console.log('Your readme has been successfully created!')
+    });
