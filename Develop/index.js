@@ -57,7 +57,6 @@ const readmePrompt = () => {
 
 const generateREADME = (answers) => {
     return `# ${answers.title}
-      
   #### Table of Contents
   1. [Description](#description)
   2. [Installation](#installation)
